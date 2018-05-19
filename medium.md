@@ -2,7 +2,7 @@
 
 ![](https://cdn-images-1.medium.com/max/2000/1*-ANKA_z3Mz_RFYKRjPnSNQ.jpeg)
 
-Randomly, I am also and coding ex-lawyer. This is an update of [@coding_lawyer](https://twitter.com/coding_lawyer)'s excellent [article](https://medium.freecodecamp.org/learn-reasonml-by-building-tic-tac-toe-in-react-334203dd513c). If you have any question's better ask him though I will do my best to answer if you ask me. Basically dependencies and syntax have been updated to reason-react@0.4.1. Have fun!
+Randomly, I am also a coding ex-lawyer. This is an update of [@coding_lawyer](https://twitter.com/coding_lawyer)'s excellent [article](https://medium.freecodecamp.org/learn-reasonml-by-building-tic-tac-toe-in-react-334203dd513c). If you have any question's better ask him though I will do my best to answer if you ask me. Basically dependencies and syntax have been updated to reason-react@0.4.1. Have fun!
 
 You may have heard of [Reason](https://reasonml.github.io/) before. It’s a syntax on top of [OCaml](https://ocaml.org/) that compiles to both readable JavaScript code and to native and bytecode as well.
 
