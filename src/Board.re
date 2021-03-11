@@ -1,7 +1,5 @@
 open SharedTypes;
 
-open Utils;
-
 let setStatus = (gameState: gameState) =>
   switch (gameState) {
   | Playing(Cross) => "Cross is playing"
@@ -11,37 +9,28 @@ let setStatus = (gameState: gameState) =>
   | Draw => "Draw"
   };
 
-let component = ReasonReact.statelessComponent("Board");
-
-let make = (~state: state, ~onMark, ~onRestart, _children) => {
-  ...component,
-  render: (_) =>
-    <div className="game-board">
-      (
-        state.board
-        |> List.mapi((index: int, row: row) =>
-             <BoardRow
-               key=(string_of_int(index))
-               gameState=state.gameState
-               row
-               onMark
-               index
-             />
-           )
-        |> Array.of_list
-        |> ReasonReact.array
-      )
-      <div className="status">
-        (state.gameState |> setStatus |> toString)
-      </div>
-      (
-        switch (state.gameState) {
-        | Playing(_) => ReasonReact.null
-        | _ =>
-          <button className="restart" onClick=onRestart>
-            (toString("Restart"))
-          </button>
-        }
-      )
-    </div>,
+[@react.component]
+let make = (~state: state, ~onMark, ~onRestart) => {
+  <div className="game-board">
+    {state.board
+     |> List.mapi((index: int, row: row) =>
+          <BoardRow
+            key={string_of_int(index)}
+            gameState={state.gameState}
+            row
+            onMark
+            index
+          />
+        )
+     |> Array.of_list
+     |> React.array}
+    <div className="status"> {state.gameState |> setStatus |> React.string} </div>
+    {switch (state.gameState) {
+     | Playing(_) => React.null
+     | _ =>
+       <button className="restart" onClick=onRestart>
+         {React.string("Restart")}
+       </button>
+     }}
+  </div>;
 };

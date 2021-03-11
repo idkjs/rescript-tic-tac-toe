@@ -54,9 +54,9 @@ let checkGameState =
       oldBoard: board,
       gameState: gameState,
     ) =>
-  oldBoard == updatedBoard ?
-    gameState :
-    {
+  oldBoard == updatedBoard
+    ? gameState
+    : {
       let flattenBoard = List.flatten(updatedBoard);
       let rec check = (rest: winningRows) => {
         let head = List.hd(rest);
@@ -83,13 +83,13 @@ let updateBoard = (board: board, gameState: gameState, id) =>
   |> List.mapi((ind: int, row: row) =>
        row
        |> List.mapi((index: int, value: field) =>
-            string_of_int(ind) ++ string_of_int(index) === id ?
-              switch (gameState, value) {
-              | (_, Marked(_)) => value
-              | (Playing(player), Empty) => Marked(player)
-              | (_, Empty) => Empty
-              } :
-              value
+            string_of_int(ind) ++ string_of_int(index) === id
+              ? switch (gameState, value) {
+                | (_, Marked(_)) => value
+                | (Playing(player), Empty) => Marked(player)
+                | (_, Empty) => Empty
+                }
+              : value
           )
      );
 
@@ -102,28 +102,27 @@ let initialState = {
   gameState: Playing(Cross),
 };
 
-let component = ReasonReact.reducerComponent("Game");
+// let component = ReasonReact.reducerComponent("Game");
+let reducer = (state: state, action: action) =>
+  switch (action) {
+  | Restart => initialState
+  | ClickSquare(id: string) =>
+    let updatedBoard = updateBoard(state.board, state.gameState, id);
+    {
+      board: updatedBoard,
+      gameState:
+        checkGameState3x3(updatedBoard, state.board, state.gameState),
+    };
+  };
+[@react.component]
+let make = () => {
+  let (state, dispatch) = React.useReducer(reducer, initialState);
 
-let make = _children => {
-  ...component,
-  initialState: () => initialState,
-  reducer: (action: action, state: state) =>
-    switch (action) {
-    | Restart => ReasonReact.Update(initialState)
-    | ClickSquare((id: string)) =>
-      let updatedBoard = updateBoard(state.board, state.gameState, id);
-      ReasonReact.Update({
-        board: updatedBoard,
-        gameState:
-          checkGameState3x3(updatedBoard, state.board, state.gameState),
-      });
-    },
-  render: ({state, send}) =>
-    <div className="game">
-      <Board
-        state
-        onRestart=(_evt => send(Restart))
-        onMark=(id => send(ClickSquare(id)))
-      />
-    </div>,
+  <div className="game">
+    <Board
+      state
+      onRestart={_evt => dispatch(Restart)}
+      onMark={id => dispatch(ClickSquare(id))}
+    />
+  </div>;
 };

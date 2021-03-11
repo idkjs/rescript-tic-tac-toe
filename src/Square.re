@@ -1,7 +1,5 @@
 open SharedTypes;
 
-open Utils;
-
 let getClass = (gameState: gameState, field: field) =>
   switch (gameState) {
   | Winner(player) => field == Marked(player) ? "winner square" : "square"
@@ -21,15 +19,12 @@ let toValue = (field: field) =>
   | Empty => ""
   };
 
-let component = ReasonReact.statelessComponent("Square");
-
-let make = (~value: field, ~gameState: gameState, ~onMark, _children) => {
-  ...component,
-  render: _self =>
-    <button
-      className=(getClass(gameState, value))
-      disabled=(gameState |> isFinished)
-      onClick=(_evt => onMark())>
-      (value |> toValue |> toString)
-    </button>,
+[@react.component]
+let make = (~value: field, ~gameState: gameState, ~onMark) => {
+  <button
+    className={getClass(gameState, value)}
+    disabled={gameState |> isFinished}
+    onClick={_evt => onMark()}>
+    {value |> toValue |> React.string}
+  </button>;
 };
