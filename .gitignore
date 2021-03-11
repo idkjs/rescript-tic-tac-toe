@@ -31,3 +31,4 @@ yarn-error.log*
 # ESLint
 .eslintcache
 old/
+old/App.re
