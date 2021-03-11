@@ -1,4 +1,4 @@
-## Reason Tic Tac Toe
+## Rescript Tic Tac Toe
 
 * classic Tic Tac Toe game developed in ReasonML using Reason-react library
 * created using `Reason-scripts`
